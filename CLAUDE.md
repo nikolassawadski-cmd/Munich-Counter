@@ -35,13 +35,28 @@ base href.
   persists them as one JSON string under the SharedPreferences key `trips_v1`
   (= `flutter.trips_v1` in localStorage). Screens receive it through their
   constructor and rebuild with `ListenableBuilder`. No state-management package.
-- "Current location" is not stored. `currentLocation()` derives it from the
-  destination of the latest trip whose departure is not in the future.
+  The repository also holds `AppSettings` (`settings_v1`) and per-month
+  `DTicketMonth` entries (`dtickets_v1`); all three go into the JSON backup
+  (version 2; version 1 backups with trips only must still import).
+- Location is never stored; `lib/services/timeline.dart` derives it from the
+  trips (`locationAt`, `locationsOn`, `daysAt`). A trip departing on a day
+  counts that day for both cities. This drives the home card, the calendar
+  and "Tage am Studienort".
 - Changing the `Trip` JSON shape affects saved user data and backup files
-  (`format: munich-counter-backup`). Keep `fromJson` backward compatible.
-- `lib/services/export_service.dart` contains pure CSV/PDF builders: CSV uses
-  `;`, a UTF-8 BOM and German formats for Excel. The PDF embeds the bundled
-  Roboto fonts.
+  (`format: munich-counter-backup`). Keep `fromJson` backward compatible: old
+  trips have no `purpose`/costs and default to `studyRelated: true`.
+- Costs: `tripCost()` in `lib/services/tax_summary.dart` is the ticket price
+  (`priceCents`), or `distanceKm × settings.kmRate` for `Transport.auto`, so a
+  changed km rate recalculates past car trips. `summarizeYear` counts only
+  `studyRelated` trips plus the Deutschlandticket share.
+- `lib/services/export_service.dart` contains pure CSV/PDF builders (month and
+  tax year). CSV uses `;`, decimal commas, a UTF-8 BOM and German formats for
+  Excel. The PDFs embed the bundled Roboto, which lacks some glyphs (e.g. `→`),
+  so check the `pdf` package's "Unable to find a font" warnings in test output.
+- `lib/services/haptics.dart` uses the same conditional-import pattern as
+  `file_access`. On iOS the web version toggles a hidden
+  `<input type="checkbox" switch>` (iOS 18+), so call `hapticTick()` inside the
+  tap handler before any `await`.
 - `lib/services/file_access.dart` uses a conditional import: the `_web`
   implementation uses `package:web` (Web Share API with download fallback, file
   picker) and the `_stub` keeps `flutter test` on the VM compiling. Never import

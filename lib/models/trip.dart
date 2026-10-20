@@ -5,6 +5,9 @@ enum Destination {
   const Destination(this.label);
   final String label;
 
+  Destination get other =>
+      this == Destination.muenchen ? Destination.heilbronn : Destination.muenchen;
+
   static Destination fromName(String name) =>
       Destination.values.firstWhere((d) => d.name == name);
 }
@@ -23,6 +26,21 @@ enum Transport {
       .firstWhere((t) => t.name == name, orElse: () => Transport.sonstiges);
 }
 
+enum Purpose {
+  vorlesung('Vorlesung'),
+  pruefung('Prüfung'),
+  lerngruppe('Lerngruppe'),
+  abschlussarbeit('Abschlussarbeit'),
+  privat('Privat'),
+  sonstiges('Sonstiges');
+
+  const Purpose(this.label);
+  final String label;
+
+  static Purpose? tryParse(String? name) =>
+      Purpose.values.where((p) => p.name == name).firstOrNull;
+}
+
 class Trip {
   const Trip({
     required this.id,
@@ -31,6 +49,10 @@ class Trip {
     required this.transport,
     required this.iceTicket,
     this.note = '',
+    this.purpose,
+    this.studyRelated = true,
+    this.priceCents,
+    this.distanceKm,
   });
 
   final String id;
@@ -40,21 +62,19 @@ class Trip {
   final bool iceTicket;
   final String note;
 
-  Trip copyWith({
-    Destination? destination,
-    DateTime? departure,
-    Transport? transport,
-    bool? iceTicket,
-    String? note,
-  }) =>
-      Trip(
-        id: id,
-        destination: destination ?? this.destination,
-        departure: departure ?? this.departure,
-        transport: transport ?? this.transport,
-        iceTicket: iceTicket ?? this.iceTicket,
-        note: note ?? this.note,
-      );
+  /// Null for trips recorded before purposes existed.
+  final Purpose? purpose;
+
+  /// Only study-related trips count towards the tax report.
+  final bool studyRelated;
+
+  /// Ticket price; used for every transport except [Transport.auto].
+  final int? priceCents;
+
+  /// Driven distance; only used for [Transport.auto].
+  final double? distanceKm;
+
+  Destination get origin => destination.other;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -63,6 +83,10 @@ class Trip {
         'transport': transport.name,
         'iceTicket': iceTicket,
         'note': note,
+        'purpose': purpose?.name,
+        'studyRelated': studyRelated,
+        'priceCents': priceCents,
+        'distanceKm': distanceKm,
       };
 
   factory Trip.fromJson(Map<String, dynamic> json) => Trip(
@@ -72,5 +96,9 @@ class Trip {
         transport: Transport.fromName(json['transport'] as String? ?? ''),
         iceTicket: json['iceTicket'] as bool? ?? false,
         note: json['note'] as String? ?? '',
+        purpose: Purpose.tryParse(json['purpose'] as String?),
+        studyRelated: json['studyRelated'] as bool? ?? true,
+        priceCents: (json['priceCents'] as num?)?.toInt(),
+        distanceKm: (json['distanceKm'] as num?)?.toDouble(),
       );
 }

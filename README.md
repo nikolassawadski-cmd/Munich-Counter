@@ -7,11 +7,21 @@ auf den Home-Bildschirm legen und speichert alle Daten lokal auf dem Gerät.
 ## Funktionen
 
 - Startseite mit „Sie befinden sich aktuell in …“ (abgeleitet aus der letzten Fahrt)
-- Fahrten mit einem Tap eintragen: Ziel, Datum, Uhrzeit, Verkehrsmittel,
+- Fahrten mit einem Tap eintragen: Ziel, Datum, Uhrzeit, Anlass, Schalter
+  „Studienbedingt“, Verkehrsmittel, Ticketpreis bzw. gefahrene Kilometer (Auto),
   Schalter „ICE-Ticket vorhanden“, Notiz
-- Verlauf je Monat, Einträge bearbeiten oder per Wischen löschen
+- Verlauf mit Monatskalender (Tage blau = München, rot = Heilbronn, geteilt =
+  Reisetag); Einträge bearbeiten oder per Wischen löschen
+- Deutschlandticket je Monat mit Studienanteil in Prozent
 - Monatsexport als CSV (Excel) oder PDF über das iOS-Teilen-Menü
-- Sicherung als JSON exportieren und wieder importieren
+- Jahresbericht für die Steuer (CSV/PDF): nur studienbedingte Fahrten, Summen
+  für die Anlage N, Monatsübersicht, Tage am Studienort
+- Einstellungen (Zahnrad im Export-Tab): Name, Hochschule, Studiengang,
+  Studienort, Strecke in km, Kilometersatz, Deutschlandticket-Preis
+- Sicherung (Fahrten und Einstellungen) als JSON exportieren und importieren
+- Haptisches Feedback beim Speichern (iPhone ab iOS 18)
+
+> Der Jahresbericht ist eine Aufstellung, keine Steuerberatung.
 
 ## Auf dem iPhone installieren
 

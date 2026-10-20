@@ -52,14 +52,14 @@ class HomeScreen extends StatelessWidget {
                   for (final d in Destination.values) ...[
                     StatChip(
                       value:
-                          monthTrips.where((t) => t.destination == d).length,
+                          '${monthTrips.where((t) => t.destination == d).length}',
                       label: 'nach ${d.label}',
                       color: d.color,
                     ),
                     const SizedBox(width: 8),
                   ],
                   StatChip(
-                    value: monthTrips.where((t) => t.iceTicket).length,
+                    value: '${monthTrips.where((t) => t.iceTicket).length}',
                     label: 'mit ICE-Ticket',
                     color: Colors.green.shade700,
                   ),
@@ -86,6 +86,7 @@ class HomeScreen extends StatelessWidget {
                       for (final t in recent)
                         TripTile(
                           trip: t,
+                          settings: repository.settings,
                           onTap: () =>
                               TripFormScreen.open(context, repository, trip: t),
                         ),
