@@ -1,0 +1,45 @@
+name: munich_counter
+description: "Fahrtenbuch für Fahrten nach München und Heilbronn (Flutter-Web-PWA)."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  # Pinned by flutter_localizations in Flutter 3.24.
+  intl: 0.19.0
+  shared_preferences: ^2.5.3
+  pdf: ^3.11.3
+  web: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # Only for tool/generate_icons.dart.
+  image: ^4.5.4
+
+flutter:
+  uses-material-design: true
+
+  # Bundled (instead of fetched from Google Fonts at runtime) so the PWA
+  # renders correctly offline; also embedded into the PDF export.
+  assets:
+    - assets/fonts/Roboto-Regular.ttf
+    - assets/fonts/Roboto-Bold.ttf
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700

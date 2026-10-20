@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <!-- Replaced by `flutter build web --base-href`, e.g. /Munich-Counter/ on GitHub Pages. -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Fahrtenbuch für Fahrten nach München und Heilbronn">
+  <meta name="theme-color" content="#1565C0">
+
+  <!-- iOS: "Zum Home-Bildschirm" opens the app full screen without Safari UI. -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Munich Counter">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Munich Counter</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #1565C0; }
+    #splash {
+      position: fixed; inset: 0; display: flex; align-items: center;
+      justify-content: center; color: #fff;
+      font: 600 20px -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="splash">Munich Counter</div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      document.getElementById('splash')?.remove();
+      document.body.style.background = '';
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
